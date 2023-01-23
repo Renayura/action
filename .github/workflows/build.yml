@@ -1,0 +1,24 @@
+name: TC Build
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '0 0 */3 * *'
+
+env:
+    GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT }}
+    TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
+jobs:
+  TC-Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Building
+      run: |
+        git clone https://github.com/Renayura/tc_build
+        cd tc_build
+        bash ci.sh deps
+        bash tc_build.sh
